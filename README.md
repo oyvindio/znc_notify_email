@@ -4,6 +4,7 @@ This is a module for [znc](http://wiki.znc.in/ZNC) that sends an email to a spec
 private message or mentions you (or some other predefined string) in a channel you are in.  notify_email.py uses uses
 the [Mailgun](http://www.mailgun.com/) API to send email so you don't need a local SMTP server, just a Mailgun account
 (currently free up to 10k emails/month).
+I wrote this mostly to scratch an itch, so it is a bit rough around the edges.
 
 ## Requirements
 - znc must be built and linked with modpython.so (use `./configure --enable-python`, or refer to the znc install instructions)
@@ -18,6 +19,7 @@ your domain and look for "API Base URL" and "API Key", respectively.
 in the `From:` and `Reply-To:` email headers. The notification email will be sent to
 `$mailgun_recipient`. `$notify_on` is a list of words (separated by whitespace) that will trigger a notification when
 mentioned in a channel you are in.
+
 ```
 /msg *status loadmod modpython
 /msg *status loadmod notify_email $mailgun_api_url $mailgun_api_key $mailgun_sender $mailgun_recipient $notify_on...
