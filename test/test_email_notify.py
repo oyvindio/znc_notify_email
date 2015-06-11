@@ -38,7 +38,7 @@ def test_create_PrivMsg_email_body():
 
     1970-01-01 00:00:00 <oyvindio>: the message
 
-    --
+    -- 
     znc notify_email.py module
     """
     actual = create_PrivMsg_email_body('efnet', 'oyvindio', 'the message', '1970-01-01 00:00:00')
@@ -57,7 +57,7 @@ def test_create_ChanMsg_email_body():
 
     1970-01-01 00:00:00 <oyvindio>: the message
 
-    --
+    -- 
     znc notify_email.py module
     """
     actual = create_ChanMsg_email_body('efnet', 'oyvindio', '#channel', 'the message', '1970-01-01 00:00:00')
