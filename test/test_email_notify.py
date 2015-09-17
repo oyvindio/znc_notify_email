@@ -17,6 +17,7 @@ import mock
 from notify_email import (should_notify, create_PrivMsg_email_subject, create_PrivMsg_email_body,
                           create_ChanMsg_email_subject, create_ChanMsg_email_body, notify_email)
 
+
 def test_should_notify_should_return_true_if_msg_contains_thing():
     assert should_notify(['foo', 'quux', 'xyzzy'], 'foo bar baz')
     assert should_notify(['foo', 'quux', 'xyzzy'], 'bar foo baz')
@@ -123,3 +124,45 @@ def test_send_mailgun_email_failure(post, PutModule):
     })
     PutModule.assert_called_with('Error while notifying {}, response from mailgun: {} {}\n{}'.format(
         recipient, status, reason, text))
+
+@mock.patch('znc.Module.PutModule', new=print)
+@mock.patch('notify_email.notify_email.currentNetworkName', new='efnet')
+@mock.patch('notify_email.notify_email.isAway')
+@mock.patch('notify_email.notify_email.send_mailgun_email')
+def test_OnChanMsg(send_mailgun_email, isAway):
+    nick = mock.Mock()
+    nick.GetNick.return_value='nick'
+    msg = mock.Mock()
+    msg.s = 'msg'
+    channel = mock.Mock()
+    channel.GetName.return_value='channel'
+
+    isAway.return_value = True
+
+    notify = notify_email()
+    loaded_ok = notify.OnLoad('http://example.com api-key sender@example.com recipient@example.com msg', None)
+    assert loaded_ok
+
+    notify.OnChanMsg(nick, channel, msg)
+
+    send_mailgun_email.assert_called_once_with()
+
+@mock.patch('znc.Module.PutModule', new=print)
+@mock.patch('notify_email.notify_email.currentNetworkName', new='efnet')
+@mock.patch('notify_email.notify_email.isAway')
+@mock.patch('notify_email.notify_email.send_mailgun_email')
+def test_OnPrivMsg(send_mailgun_email, isAway):
+    nick = mock.Mock()
+    nick.GetNick.return_value='nick'
+    msg = mock.Mock()
+    msg.s = 'msg'
+
+    isAway.return_value = True
+
+    notify = notify_email()
+    loaded_ok = notify.OnLoad('http://example.com api-key sender@example.com recipient@example.com msg', None)
+    assert loaded_ok
+
+    notify.OnPrivMsg(nick, msg)
+
+    send_mailgun_email.assert_called_once_with()
