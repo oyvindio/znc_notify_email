@@ -126,10 +126,13 @@ def test_send_mailgun_email_failure(post, PutModule):
         recipient, status, reason, text))
 
 @mock.patch('znc.Module.PutModule', new=print)
-@mock.patch('notify_email.notify_email.currentNetworkName', new='efnet')
+@mock.patch('notify_email.notify_email.currentNetworkName')
 @mock.patch('notify_email.notify_email.isAway')
 @mock.patch('notify_email.notify_email.send_mailgun_email')
-def test_OnChanMsg(send_mailgun_email, isAway):
+def test_OnChanMsg(send_mailgun_email, isAway, currentNetworkName):
+    isAway.return_value = True
+    currentNetworkName.return_value = 'efnet'
+
     nick = mock.Mock()
     nick.GetNick.return_value='nick'
     msg = mock.Mock()
@@ -137,27 +140,26 @@ def test_OnChanMsg(send_mailgun_email, isAway):
     channel = mock.Mock()
     channel.GetName.return_value='channel'
 
-    isAway.return_value = True
-
     notify = notify_email()
     loaded_ok = notify.OnLoad('http://example.com api-key sender@example.com recipient@example.com msg', None)
     assert loaded_ok
 
     notify.OnChanMsg(nick, channel, msg)
 
-    send_mailgun_email.assert_called_once_with()
+    send_mailgun_email.assert_called_once
 
 @mock.patch('znc.Module.PutModule', new=print)
-@mock.patch('notify_email.notify_email.currentNetworkName', new='efnet')
+@mock.patch('notify_email.notify_email.currentNetworkName')
 @mock.patch('notify_email.notify_email.isAway')
 @mock.patch('notify_email.notify_email.send_mailgun_email')
-def test_OnPrivMsg(send_mailgun_email, isAway):
+def test_OnPrivMsg(send_mailgun_email, isAway, currentNetworkName):
+    isAway.return_value = True
+    currentNetworkName.return_value = 'efnet'
+
     nick = mock.Mock()
     nick.GetNick.return_value='nick'
     msg = mock.Mock()
     msg.s = 'msg'
-
-    isAway.return_value = True
 
     notify = notify_email()
     loaded_ok = notify.OnLoad('http://example.com api-key sender@example.com recipient@example.com msg', None)
@@ -165,4 +167,4 @@ def test_OnPrivMsg(send_mailgun_email, isAway):
 
     notify.OnPrivMsg(nick, msg)
 
-    send_mailgun_email.assert_called_once_with()
+    send_mailgun_email.assert_called_once

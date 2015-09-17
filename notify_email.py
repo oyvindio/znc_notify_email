@@ -84,7 +84,7 @@ class notify_email(znc.Module):
     def OnChanMsg(self, nick, channel, msg):
         if self.isAway() and should_notify(self.notify_on, msg.s):
             self.PutModule('{} said {} in {}, notifying {}'.format(nick.GetNick(), msg.s, channel.GetName(),
-                                                                   mailgun_recipient))
+                                                                   self.mailgun_recipient))
             email_subject = create_ChanMsg_email_subject(self.currentNetworkName(), nick.GetNick(), channel.GetName())
             email_body = create_ChanMsg_email_body(self.currentNetworkName(), nick.GetNick(), channel.GetName(),
                                                    msg.s, now_timestamp())
@@ -96,7 +96,7 @@ class notify_email(znc.Module):
     @__print_stacktrace_on_error
     def OnPrivMsg(self, nick, msg):
         if self.isAway():
-            self.PutModule('{} said {} in query, notifying {}'.format(nick.GetNick(), msg.s, mailgun_recipient))
+            self.PutModule('{} said {} in query, notifying {}'.format(nick.GetNick(), msg.s, self.mailgun_recipient))
             email_subject = create_PrivMsg_email_subject(self.currentNetworkName(), nick.GetNick())
             email_body = create_PrivMsg_email_body(self.currentNetworkName(), nick.GetNick(), msg.s, now_timestamp())
             self.send_mailgun_email(self.mailgun_api_url, self.mailgun_api_key, self.mailgun_sender,
