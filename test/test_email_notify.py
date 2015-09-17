@@ -146,7 +146,7 @@ def test_OnChanMsg(send_mailgun_email, isAway, currentNetworkName):
 
     notify.OnChanMsg(nick, channel, msg)
 
-    send_mailgun_email.assert_called_once
+    assert send_mailgun_email.called
 
 @mock.patch('znc.Module.PutModule', new=print)
 @mock.patch('notify_email.notify_email.currentNetworkName')
@@ -167,4 +167,4 @@ def test_OnPrivMsg(send_mailgun_email, isAway, currentNetworkName):
 
     notify.OnPrivMsg(nick, msg)
 
-    send_mailgun_email.assert_called_once
+    assert send_mailgun_email.called
