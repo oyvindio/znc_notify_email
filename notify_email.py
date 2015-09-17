@@ -24,7 +24,7 @@ def create_PrivMsg_email_body(network, nick, msg, timestamp):
 
     {time} <{nick}>: {msg}
 
-    --
+    -- 
     znc notify_email.py module
     """.format(network=network, nick=nick, msg=msg, time=timestamp)
 
@@ -42,7 +42,7 @@ def create_ChanMsg_email_body(network, nick, channel, msg, timestamp):
 
     {time} <{nick}>: {msg}
 
-    --
+    -- 
     znc notify_email.py module
     """.format(network=network, nick=nick, channel=channel, msg=msg, time=timestamp)
 
