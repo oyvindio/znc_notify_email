@@ -1,3 +1,5 @@
+![Travis build status for branch master](https://travis-ci.org/oyvindio/znc_notify_email.svg?branch=master)
+
 # notify_email.py
 
 This is a module for [znc](http://wiki.znc.in/ZNC) that sends an email to a specified address when someone sends you a
