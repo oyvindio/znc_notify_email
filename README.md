@@ -1,4 +1,4 @@
-![Travis build status for branch master](https://travis-ci.org/oyvindio/znc_notify_email.svg?branch=master)
+[![Build Status](https://travis-ci.org/oyvindio/znc_notify_email.svg?branch=master)](https://travis-ci.org/oyvindio/znc_notify_email)
 
 # notify_email.py
 
